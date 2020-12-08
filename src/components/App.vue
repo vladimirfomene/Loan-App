@@ -25,15 +25,17 @@ export default {
         }
     },
     methods: {
+        
         login(){
-            //util.PHONE_NUMBER === String(this.phoneNumber).trim() && util.PASSWORD === String(this.password).trim()
-            if(true){
+            if((util.PASSWORD == String(this.password).trim())){
                 this.$navigateTo(Customers);
             }
         }
     }
 }
 </script>
-
+    .then(() => {
+                console.log("Alert dialog closed.");
+            });
 <style scoped>
 </style>
