@@ -1,10 +1,21 @@
 <template>
     <Page>
-        <ActionBar title="Customers"/>
-        <SearchBar v-model="searchQuery" @textChange="searchCustomer"/>
-        <ListView for="customer in filteredCustomers" @itemTap="customerTap(customer)">
+        <ActionBar title="Customers">
+            <NavigationButton text="Go back" android.systemIcon="ic_menu_back" @tap="goBack" />
+             <ActionItem @tap="onTapLogout" ios.systemIcon="9" ios.position="right" text="Logout" android.position="popup" />
+        </ActionBar>
+        <SearchBar hint="Search Customer" v-model="searchQuery" @textChange="searchCustomer"/>
+        <ListView for="customer in filteredCustomers"  @itemTap="onTap" separatorColor="blue">
             <v-template>
-                <Label :text="customer.name" />
+                <FlexboxLayout flexDirection="column">
+                    <Label class="list-item" :text="customer.name.toUpperCase()" marginLeft="10px"/>
+                    <Label class="sub-item" :text="`customerID: ${customer.id}`" marginLeft="10px"/>
+                    <Label class="sub-item" :text="`Phonenumber: ${customer.phone_number}`" marginLeft="10px"/>
+                    <Label class="sub-item" :text="`City: ${customer.city}`" marginLeft="10px"/>
+                    <Label class="sub-item" :text="`Location: ${customer.location}`" marginLeft="10px"/>
+                    <Label class="sub-item" :text="`Region: ${customer.region}`" marginLeft="10px"/>
+                    <Label class="sub-item" :text="`Coordinates: ${customer.coordinates}`" marginLeft="10px"/>
+                </FlexboxLayout>
             </v-template>
         </ListView>
     </Page>
@@ -12,12 +23,17 @@
 
 
 <script>
-import { API_URL } from "../utils/utils";
+import util from "../utils/utils";
 import axios from "axios";
-import Profile from "./Profile.vue";
+import Loans from "./Loans";
+import App from "./App";
 
 export default {
-    name: "Login",
+    name: "Customers",
+    components: {
+        Loans,
+        App
+    },
     data(){
         return {
             searchQuery: "",
@@ -26,7 +42,7 @@ export default {
     },
     methods: {
         searchCustomer(){
-                axios.get(`${API_URL}/customers?name=${searchQuery}`)
+                axios.get(`${util.API_URL}/customers?name=${this.searchQuery.trim()}`)
                 .then((res) => {
                     this.customers = res.data
                 })
@@ -34,16 +50,22 @@ export default {
                     console.error(err);
                 });
         },
-        customerTap(customer){
-            this.$navigateTo(Profile, {
+        onTap(event){
+            
+            this.$navigateTo(Loans, {
                 transition: {},
                 transitioniOS: {},
                 transitionAndroid: {},
-
                 props: {
-                    customer
+                    customer: event.item
                 }
-            })
+            });
+        },
+        goBack(event){
+            this.$navigateTo(App);
+        },
+        onTapLogout(event){
+            this.$navigateTo(App);
         }
     },
     computed: {
@@ -54,7 +76,7 @@ export default {
         }
     },
     created(){
-        axios.get(`${API_URL}/customers`)
+        axios.get(`${util.API_URL}/customers`)
         .then((res) => {
             this.customers = res.data;
         })
@@ -66,5 +88,9 @@ export default {
 </script>
 
 <style scoped>
-@import "../../node_modules/bulma/css/bulma.css";
+.list-item {
+    font-size: 30px;
+    font-weight: 500;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 </style>
