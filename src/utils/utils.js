@@ -1,5 +1,5 @@
 export default {
-    PHONE_Number: "7777777",
+    PHONE_Number: 690346872,
     PASSWORD: "coronavirus",
-    API_URL: ""
+    API_URL: "<INSERT PUBLIC NGROK ADDRESS>"
 }
