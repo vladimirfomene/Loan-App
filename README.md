@@ -69,5 +69,5 @@ tns build <platform> --env.production
 ```
 ## Agent Login
 
-* **Phone number**: `7777777`
+* **Phone number**: `690346872`
 * **Password**: `coronavirus`
