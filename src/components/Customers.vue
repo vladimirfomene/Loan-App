@@ -1,10 +1,9 @@
 <template>
     <Page>
         <ActionBar title="Customers">
-            <NavigationButton text="Go back" android.systemIcon="ic_menu_back" @tap="goBack" />
-             <ActionItem @tap="onTapLogout" ios.systemIcon="9" ios.position="right" text="Logout" android.position="popup" />
+            <ActionItem @tap="onTapLogout" ios.systemIcon="9" ios.position="right" text="Logout" android.position="popup" />
+            <SearchBar height="50px" width="100%" hint="Search Customer" v-model="searchQuery" @textChange="searchCustomer"/>
         </ActionBar>
-        <SearchBar hint="Search Customer" v-model="searchQuery" @textChange="searchCustomer"/>
         <ListView for="customer in filteredCustomers"  @itemTap="onTap" separatorColor="blue">
             <v-template>
                 <FlexboxLayout flexDirection="column">
@@ -92,5 +91,8 @@ export default {
     font-size: 30px;
     font-weight: 500;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.stretch {
+    width: 100%;
 }
 </style>
